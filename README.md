@@ -22,7 +22,7 @@ The necessary tools to collect the data are located in the "data" directory. The
 ### Installing
 It is highly recommended to use a USB flash drive that's formatted to ext 3 or 4 and save the directory Linux_Response_Tool on it. 
 
-### Executing program
+### Executing the Program
 
 1) Attach the external drive 
 2) Open terminal as root user
