@@ -2,7 +2,7 @@
 
 "In case of emergency insert the USB"
 
-This is a Bash tool that's created for quick use during incident response to a breached network or a compromised Linux Ubuntu system. It will collect useful volatile and non-volatile data before you shut down the infected device.
+This is a Bash tool that's created for quick use during incident response to a Linux Ubuntu system. It will collect useful volatile and non-volatile data before you shut down the infected device.
 
 You have to save the whole directory Linux_Response_Tool on a USB drive and run the app from it. This app runs on Ubuntu systems and has been tested on Ubuntu 22.10
 
@@ -17,10 +17,10 @@ System Information, System Log Files, Auth Log Files, Kernel Log Files, Login In
 ## Getting Started
 
 ### Dependencies
-The necessary tools to collect the data are located in the "data" directory. The user will not need to use the local machine's tools. 
+The necessary tools to collect the data are located in the "tools" directory. The user will not need to use the local machine's tools. 
 
 ### Installing
-It is highly recommended to use a USB flash drive that's formatted to ext 3 or 4 and save the directory Linux_Response_Tool on it. 
+It is highly recommended to use a USB flash drive that's formatted to ext3 or ext4 and save the directory Linux_Response_Tool on it. 
 
 ### Executing the Program
 
@@ -31,7 +31,7 @@ It is highly recommended to use a USB flash drive that's formatted to ext 3 or 4
 5) Follow directions on terminal 
 
 ## Output
-- The collected data will be stored in the data file located in Linux_Response_Tool/data.
+- The collected data will be stored in the "data" directory located in Linux_Response_Tool/data.
 - There will also be a summary file that includes the start and end time of collection. 
 - Additionally, there will be a file_hashes txt file that contains the hashes (MD5 & SHA256) of all the output files. This is to ensure that no tampering occurs to the output files. You can verify the hashes on a different computer by hashing each output file and verifying that you have the same hashes as what's found in the file_hashes. 
 - To view the log files produced in the data directory, launch terminal as a root user and use gedit followed by the log file name. 
