@@ -1,0 +1,171 @@
+#!/bin/bash
+#ubuntopsy by Ahmed Ali 
+clear 
+
+location=$(pwd)
+
+
+echo UBUNTOPSY 
+
+echo #space
+
+echo by Ahmed Ali 
+
+echo #space
+
+echo #space 
+
+echo "This script captures critical volatile and non-volatile data" 
+
+echo "Execute this script from the thumbdrive's root folder"
+
+#Identify the investigator. 
+echo #space 
+read -p "Investigator's Name: "  investigator 
+
+#Confirm that the investigator is running Terminal as root
+echo #space
+read -p "$investigator, are you currently running Terminal as root? " answer
+case $answer in 
+Y|y|yes|YES|Yes) echo"";; 
+N|n|no|NO|No) echo "Program will exit, please run Terminal in root"; exit;;
+*) echo "You must answer y or n, program will now exit"; exit;;
+esac
+
+#Proceed with collecting case information
+read -p "Case Name: " case_name
+read -p "What is the watch date and time (MM/DD/YYYY) (hh:mm): " watch_date
+read -p "Provide the directory name on your thumbdrive where data will be stored: " collection_folder
+
+read -p "What is the storage device serial number? " serial_number
+
+#Create summary page 
+echo "                JOB SUMMARY             " &>> $collection_folder/summary.txt
+echo "Case Name: $case_name" &>> $collection_folder/summary.txt
+echo "Investigator: $investigator" &>> $collection_folder/summary.txt
+echo "Flash Drive Serial #: $serial_number" &>> $collection_folder/summary.txt
+
+echo #space
+echo #space
+
+#Begin collecting forensic data using the different tools saved on the thumbdrive. 
+echo "Begin Data Collection" 
+
+echo #space 
+
+#Begin collection of volatile data" 
+echo "                     Let's Collect Some Volatile Data First" 
+
+echo #space 
+
+
+echo "Collecting Current Date and Time" 
+
+echo "Start Date & Time: $(date)" &>> $collection_folder/summary.txt
+
+echo "Collecting Data on Modified Files in the Last 10 Minutes"
+$location/tools/find / -type f -mtime -10 &>> $collection_folder/1_modified_files.txt 
+
+echo "Collecting Running Processes" 
+$location/tools/ps aux &>> $collection_folder/3_current_processes.txt 
+
+echo "Collecting Process and Ports Information"
+$location/tools/netstat -anp &>> $collection_folder/4_netstat.txt
+ 
+echo "Collecting Routing Table" 
+$location/tools/netstat -rn &>> $collection_folder/5_routing_table.txt ; route &>> $collection_folder/5_routing_table.txt
+ 
+echo "Collecting ARP Information"
+$location/tools/arp -a &>> $collection_folder/6_arp.txt
+
+echo "Collecting ifconfig information"
+$location/tools/ifconfig -a &>> $collection_folder/7_ifconfig.txt
+
+echo "Collecting Wireless Interface Info"
+$location/tools/iwconfig &>> $collection_folder/8_w_interfaces.txt
+
+echo "Collecting Open Files Information" 
+$location/tools/lsof -V &>> $collection_folder/9_open_files.txt
+
+echo "Collecting Loaded Kernel Modules"
+$location/tools/lsmod &>> $collection_folder/10_loaded_kernel_modules.txt
+
+echo #space
+
+#Begin collection of non-volatile data
+echo "                     Collecting More Data"
+
+echo #space 
+
+echo "Collecting System Information" 
+$location/tools/uname -a &>> $collection_folder/2_system_information.txt
+
+echo "Collecting System Log Files"
+$location/tools/cp /var/log/syslog $collection_folder/17_syslog
+
+echo "Collecting /var/log/auth Log Files"
+$location/tools/cp /var/log/auth.log $collection_folder/18_auth.log
+
+echo "Collecting Kernel Log Files" 
+$location/tools/cp /var/log/kern.log $collection_folder/19_kernel.log
+
+echo "Collecting Current Login Information"
+$location/tools/w &>> $collection_folder/11_current_login.txt
+
+echo "Collecting Login History Information"
+$location/tools/last -Faiwx &>> $collection_folder/12_login_history.txt
+
+echo "Collecting BIOS information"
+$location/tools/dmidecode &>> $collection_folder/13_bios.txt
+
+echo "Collecting System Variables"
+set &>> $collection_folder/14_system_vars.txt
+
+echo "Collecting Mounted File Systems Information"
+$location/tools/mount &>> $collection_folder/15_mounted_files.txt
+
+echo "Collect Memory & Swap Space Storage Information" 
+$location/tools/free &>> $collection_folder/16_memory_storage_info.txt
+
+#Save the time collection ended
+echo "End Date & Time: $(date)" &>> $collection_folder/summary.txt
+
+#Finish the Summary file 
+echo &>> $collection_folder/summary.txt
+echo "        Files Collected" &>> $collection_folder/summary.txt
+echo "
+1_modified_files.txt 
+2_system_information.txt 
+3_current_processes.txt 
+4_netstat.txt 
+5_routing_table.txt
+6_arp.txt
+7_ifconfig.txt
+8_w_interfaces.txt
+9_open_files.txt
+10_loaded_kernel_modules.txt
+11_current_login.txt
+12_login_history.txt
+13_bios.txt
+14_system_vars.txt
+15_mounted_files.txt
+16_memory_storage_info.txt
+17_syslog
+18_auth.log
+19_kernel.log"&>> $collection_folder/summary.txt
+
+#MD5 the Files 
+echo #space
+echo "                     Hashing Files"
+
+
+$location/tools/hashdeep -r $location/data > $location/data/file_hashes.txt
+
+echo #space
+
+echo #space 
+
+#Inform user that data collection has ended. 
+echo "Collection has completed, please check the $collection_folder directory for collected data, Goodbye, $investigator!"
+
+echo #space
