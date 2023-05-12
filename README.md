@@ -30,14 +30,14 @@ It is highly recommended to use a USB flash drive that's formatted to ext 3 or 4
 4) Run application by typing ./response
 5) Follow directions on terminal 
 
-# Output
+## Output
 - The collected data will be stored in the data file located in Linux_Response_Tool/data.
 - There will also be a summary file that includes the start and end time of collection. 
 - Additionally, there will be a file_hashes txt file that contains the hashes (MD5 & SHA256) of all the output files. This is to ensure that no tampering occurs to the output files. You can verify the hashes on a different computer by hashing each output file and verifying that you have the same hashes as what's found in the file_hashes. 
 - To view the log files produced in the data directory, launch terminal as a root user and use gedit followed by the log file name. 
 (Ex: > gedit /media/*username*/*flash drive name*/Linux_Response_Tool/data/18_auth.log)
 
-# Authors
+## Authors
 
-Ahmed Ali
+Ahmed Ali  
 https://medium.com/@Akali27
