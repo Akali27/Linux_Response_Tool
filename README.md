@@ -38,5 +38,6 @@ It is highly recommended to use a USB flash drive that's formatted to ext 3 or 4
 (Ex: > gedit /media/*username*/*flash drive name*/Linux_Response_Tool/data/18_auth.log)
 
 # Authors
+
 Ahmed Ali
 https://medium.com/@Akali27
